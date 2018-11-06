@@ -1,7 +1,3 @@
-GRAPH.QUERY IAM "CREATE INDEX ON :User(userId)"
-GRAPH.QUERY IAM "CREATE INDEX ON :Team(teamId)"
-GRAPH.QUERY IAM "CREATE INDEX ON :Resource(resourceId)"
-
 GRAPH.QUERY IAM "MATCH (p:User {userId:49203})-[*1..3]->(f:Resource) RETURN count(f)"
 GRAPH.QUERY IAM "MATCH (p:User {userId:49203})-[*1..4]->(f:Resource) RETURN count(f)"
 GRAPH.QUERY IAM "MATCH (p:User {userId:49203})-[*1..5]->(f:Resource) RETURN count(f)"
