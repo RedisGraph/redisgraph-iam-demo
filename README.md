@@ -14,3 +14,7 @@ import.sh
 ```
 ## Queries
 [Example queries](https://github.com/K-Jo/redisgraph-iam-demo/blob/master/queries)
+
+## Schema
+![Schema](images/schema.png?raw=true "Schema IAM")
+
