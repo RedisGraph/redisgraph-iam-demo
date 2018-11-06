@@ -1,0 +1,3 @@
+[submodule "redisgraph-bulk-loader"]
+	path = redisgraph-bulk-loader
+	url = https://github.com/RedisLabsModules/redisgraph-bulk-loader
