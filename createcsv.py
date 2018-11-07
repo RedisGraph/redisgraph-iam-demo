@@ -42,8 +42,14 @@ def create_csv(usersperteam, resourcesperteam, hierarchies, childteams):
             writer.writerow({'resourceId':x,'resourceName':'Resource ' + str(x)})
 
     #  RELATIONSHIPS
+    with open('PART_OF_TEAM.csv', 'w') as partOfTeamFile:
+        writer = csv.writer(partOfTeamFile)
+        for x in range(0,numberOfTeams*usersperteam):
+            teamId = int(x / usersperteam)
+            writer.writerow([startIdUser+x, teamId])
+
     # Team of Teams.  Team 1 is the top organisation team
-    with open('TEAM_OF_TEAM.csv', 'w') as teamOfTeamFile:
+    with open('PART_OF_TEAM.csv', 'a') as teamOfTeamFile:
         writer = csv.writer(teamOfTeamFile)
         for x in range(1,hierarchies):
             for y in range(geometricSum(childteams,x),geometricSum(childteams,x+1)):
@@ -56,12 +62,6 @@ def create_csv(usersperteam, resourcesperteam, hierarchies, childteams):
         for x in range(0,numberOfTeams*resourcesperteam):
             teamId = int(x / resourcesperteam)
             writer.writerow([teamId, startIdResource+x])
-
-    with open('PART_OF_TEAM.csv', 'w') as partOfTeamFile:
-        writer = csv.writer(partOfTeamFile)
-        for x in range(0,numberOfTeams*usersperteam):
-            teamId = int(x / usersperteam)
-            writer.writerow([startIdUser+x, teamId])
 
 if __name__ == '__main__':
   create_csv()
