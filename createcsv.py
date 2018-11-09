@@ -2,7 +2,7 @@ import csv
 import click
 
 def geometricSum(x,n):
-    return round((1-pow(x,n))/(1-x))
+    return int(round((1-pow(x,n))/(1-x)))
 
 @click.command()
 @click.option('--usersperteam', '-upt', default=5, help='Average number of users per Team')
