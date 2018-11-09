@@ -1,10 +1,22 @@
-GRAPH.QUERY IAM "MATCH (p:User {userId:49203})-[*1..3]->(f:Resource) RETURN count(f)"
-GRAPH.QUERY IAM "MATCH (p:User {userId:49203})-[*1..4]->(f:Resource) RETURN count(f)"
-GRAPH.QUERY IAM "MATCH (p:User {userId:49203})-[*1..5]->(f:Resource) RETURN count(f)"
+GRAPH.QUERY IAM_LARGE "MATCH (p:User {userId:49203})-[*1..3]->(f:Resource) RETURN count(f)"
+GRAPH.QUERY IAM_LARGE "MATCH (p:User {userId:49203})-[*1..4]->(f:Resource) RETURN count(f)"
+GRAPH.QUERY IAM_LARGE "MATCH (p:User {userId:49203})-[*1..5]->(f:Resource) RETURN count(f)"
 
-GRAPH.QUERY IAM "MATCH (t:Team {teamId:1})<-[*3..3]-(u:User) RETURN count(u)"
-GRAPH.QUERY IAM "MATCH (t:Team {teamId:1})<-[*6..6]-(u:User) RETURN count(u)"
-GRAPH.QUERY IAM "MATCH (t:Team {teamId:1})<-[*9..9]-(u:User) RETURN count(u)"
+GRAPH.QUERY IAM_LARGE "MATCH (t:Team {teamId:1})<-[*3..3]-(u:User) RETURN count(u)"
+GRAPH.QUERY IAM_LARGE "MATCH (t:Team {teamId:1})<-[*6..6]-(u:User) RETURN count(u)"
+GRAPH.QUERY IAM_LARGE "MATCH (t:Team {teamId:1})<-[*9..9]-(u:User) RETURN count(u)"
 
-GRAPH.QUERY IAM "MATCH (p:User {userId:49203})-[:PART_OF_TEAM*1..10]->()-[:RESOURCE_ACCESS]->(f:Resource {resourceId:1}) RETURN f"
-GRAPH.QUERY IAM "MATCH (p:User {userId:147619})-[:PART_OF_TEAM*1..1]->()-[:RESOURCE_ACCESS]->(f:Resource {resourceId:147619}) RETURN f"
+GRAPH.QUERY IAM_LARGE "MATCH (p:User {userId:49203})-[:PART_OF_TEAM*1..10]->()-[:RESOURCE_ACCESS]->(f:Resource {resourceId:1}) RETURN f"
+GRAPH.QUERY IAM_LARGE "MATCH (p:User {userId:147619})-[:PART_OF_TEAM*1..1]->()-[:RESOURCE_ACCESS]->(f:Resource {resourceId:147619}) RETURN f"
+
+// Show entire Graph
+GRAPH.QUERY IAM_SMALL "MATCH (n)-[r]->(m) RETURN ID(n), n.name, n.type, ID(m), m.name, m.type"
+
+// Show resources Yiftach can access
+GRAPH.QUERY IAM_SMALL "MATCH (n:User {userId:1})-[*]->(m:Resource) RETURN ID(n), n.name, n.type, ID(m), m.name, m.type"
+
+// Show resources Itamar can access
+GRAPH.QUERY IAM_SMALL "MATCH (n:User {userId:4})-[*]->(m:Resource) RETURN ID(n), n.name, n.type, ID(m), m.name, m.type"
+
+// Show longest user to resource access query
+GRAPH.QUERY IAM_LARGE "MATCH (n:User {userId:49203})-[:PART_OF_TEAM*1..10]->()-[:RESOURCE_ACCESS]->(m:Resource {resourceId:1}) RETURN ID(n), n.name, n.type, ID(m), m.name, m.type"

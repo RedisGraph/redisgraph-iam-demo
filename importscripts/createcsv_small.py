@@ -17,33 +17,33 @@ def create_csv(usersperteam, resourcesperteam, hierarchies, childteams):
     # Create Team nodes file
     startIdTeam = 0
     with open('smallgraph/Team.csv', 'w') as teamFile:
-        fieldnames = ['teamId', 'name']
+        fieldnames = ['teamId', 'name', 'type']
         writer = csv.DictWriter(teamFile, fieldnames=fieldnames)
         writer.writeheader()
-        writer.writerow({'teamId':1,'name':'Redis Labs'})
-        writer.writerow({'teamId':2,'name':'Modules Team'})
+        writer.writerow({'teamId':1,'name':'Redis Labs','type':'Team'})
+        writer.writerow({'teamId':2,'name':'Modules Team','type':'Team'})
 
     startIdUser = startIdTeam + 2
     # Create User nodes file
     with open('smallgraph/User.csv', 'w') as userFile:
-        fieldnames = ['userId', 'name']
+        fieldnames = ['userId', 'name', 'type']
         writer = csv.DictWriter(userFile, fieldnames=fieldnames)
         writer.writeheader()
-        writer.writerow({'userId':1,'name':'Yiftach Schoolman'})
-        writer.writerow({'userId':2,'name':'Roi Lipman'})
-        writer.writerow({'userId':3,'name':'Pieter Cailliau'})
-        writer.writerow({'userId':4,'name':'Itamar Haber'})
-        writer.writerow({'userId':5,'name':'Jeffrey Lovitz'})
-        writer.writerow({'userId':6,'name':'Keren Ouaknine'})
+        writer.writerow({'userId':1,'name':'Yiftach Schoolman','type':'User'})
+        writer.writerow({'userId':2,'name':'Roi Lipman','type':'User'})
+        writer.writerow({'userId':3,'name':'Pieter Cailliau','type':'User'})
+        writer.writerow({'userId':4,'name':'Itamar Haber','type':'User'})
+        writer.writerow({'userId':5,'name':'Jeffrey Lovitz','type':'User'})
+        writer.writerow({'userId':6,'name':'Keren Ouaknine','type':'User'})
 
     startIdResource = startIdUser + 6
     # Create Resource node file
     with open('smallgraph/Resource.csv', 'w') as resourceFile:
-        fieldnames = ['resourceId', 'name']
+        fieldnames = ['resourceId', 'name', 'type']
         writer = csv.DictWriter(resourceFile, fieldnames=fieldnames)
         writer.writeheader()
-        writer.writerow({'resourceId':1,'name':'New Year Party Pictures'})
-        writer.writerow({'resourceId':2,'name':'github.com/./RedisGraph'})
+        writer.writerow({'resourceId':1,'name':'New Year Party Pictures','type':'Resource'})
+        writer.writerow({'resourceId':2,'name':'github.com/./RedisGraph','type':'Resource'})
 
     #  RELATIONSHIPS
     # user to team
@@ -51,10 +51,10 @@ def create_csv(usersperteam, resourcesperteam, hierarchies, childteams):
         writer = csv.writer(partOfTeamFile)
         writer.writerow([1+(startIdUser-1),1+(startIdTeam-1)])
         writer.writerow([2+(startIdUser-1),2+(startIdTeam-1)])
-        writer.writerow([2+(startIdUser-1),3+(startIdTeam-1)])
-        writer.writerow([2+(startIdUser-1),4+(startIdTeam-1)])
-        writer.writerow([2+(startIdUser-1),5+(startIdTeam-1)])
-        writer.writerow([2+(startIdUser-1),6+(startIdTeam-1)])
+        writer.writerow([3+(startIdUser-1),2+(startIdTeam-1)])
+        writer.writerow([4+(startIdUser-1),2+(startIdTeam-1)])
+        writer.writerow([5+(startIdUser-1),2+(startIdTeam-1)])
+        writer.writerow([6+(startIdUser-1),2+(startIdTeam-1)])
     # team to team
         writer.writerow([2+(startIdTeam-1),1+(startIdTeam-1)])
 
