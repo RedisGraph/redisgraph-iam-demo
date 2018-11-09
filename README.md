@@ -3,7 +3,7 @@ A Python utility to create an IAM data set and import it into RedisGraph
 
 ## Installation
 ```
-git submodule init
+git submodule update --init --recursive
 ```
 ```
 pip install --user -r requirements.txt
@@ -17,4 +17,3 @@ import.sh
 
 ## Schema
 ![Schema](images/schema.png?raw=true "Schema IAM")
-
