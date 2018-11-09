@@ -20,48 +20,49 @@ def create_csv(usersperteam, resourcesperteam, hierarchies, childteams):
         fieldnames = ['teamId', 'teamName']
         writer = csv.DictWriter(teamFile, fieldnames=fieldnames)
         writer.writeheader()
-        for x in range(0,numberOfTeams):
-            writer.writerow({'teamId':x,'teamName':'Team ' + str(x)})
+        writer.writerow({'teamId':1,'teamName':'Redis Labs'})
+        writer.writerow({'teamId':2,'teamName':'Modules Team'})
 
-    startIdUser = startIdTeam + numberOfTeams
+    startIdUser = startIdTeam + 2
     # Create User nodes file
     with open('smallgraph/User.csv', 'w') as userFile:
         fieldnames = ['userId', 'userName']
         writer = csv.DictWriter(userFile, fieldnames=fieldnames)
         writer.writeheader()
-        for x in range(0,numberOfTeams*usersperteam):
-            writer.writerow({'userId':x,'userName':'User ' + str(x)})
+        writer.writerow({'userId':1,'userName':'Yiftach Schoolman'})
+        writer.writerow({'userId':2,'userName':'Roi Lipman'})
+        writer.writerow({'userId':3,'userName':'Pieter Cailliau'})
+        writer.writerow({'userId':4,'userName':'Itamar Haber'})
+        writer.writerow({'userId':5,'userName':'Jeffrey Lovitz'})
+        writer.writerow({'userId':6,'userName':'Keren Ouaknine'})
 
-    startIdResource = startIdUser + numberOfTeams*usersperteam
+    startIdResource = startIdUser + 6
     # Create Resource node file
     with open('smallgraph/Resource.csv', 'w') as resourceFile:
         fieldnames = ['resourceId', 'resourceName']
         writer = csv.DictWriter(resourceFile, fieldnames=fieldnames)
         writer.writeheader()
-        for x in range(0,numberOfTeams*resourcesperteam):
-            writer.writerow({'resourceId':x,'resourceName':'Resource ' + str(x)})
+        writer.writerow({'resourceId':1,'resourceName':'New Year Party Pictures')
+        writer.writerow({'resourceId':2,'resourceName':'github.com/./RedisGraph')
 
     #  RELATIONSHIPS
+    # user to team
     with open('smallgraph/PART_OF_TEAM.csv', 'w') as partOfTeamFile:
         writer = csv.writer(partOfTeamFile)
-        for x in range(0,numberOfTeams*usersperteam):
-            teamId = int(x / usersperteam)
-            writer.writerow([startIdUser+x, teamId])
-
-    # Team of Teams.  Team 1 is the top organisation team
-    with open('smallgraph/PART_OF_TEAM.csv', 'a') as teamOfTeamFile:
-        writer = csv.writer(teamOfTeamFile)
-        for x in range(1,hierarchies):
-            for y in range(geometricSum(childteams,x),geometricSum(childteams,x+1)):
-                endTeamId = geometricSum(childteams,x-1) + int((y + 1 - (geometricSum(childteams,x)+1))/childteams)
-                writer.writerow([y,endTeamId])
+        writer.writerow([1+(startIdUser-1),1+(startIdTeam-1)])
+        writer.writerow([2+(startIdUser-1),2+(startIdTeam-1)])
+        writer.writerow([2+(startIdUser-1),3+(startIdTeam-1)])
+        writer.writerow([2+(startIdUser-1),4+(startIdTeam-1)])
+        writer.writerow([2+(startIdUser-1),5+(startIdTeam-1)])
+        writer.writerow([2+(startIdUser-1),6+(startIdTeam-1)])
+    # team to team
+        writer.writerow([2+(startIdTeam-1),1+(startIdTeam-1)])
 
     # Each team has acces to {resources per team}
     with open('smallgraph/RESOURCE_ACCESS.csv', 'w') as resourceAccessFile:
         writer = csv.writer(resourceAccessFile)
-        for x in range(0,numberOfTeams*resourcesperteam):
-            teamId = int(x / resourcesperteam)
-            writer.writerow([teamId, startIdResource+x])
+        writer.writerow([1+(startIdTeam-1),1+(startIdResource-1)])
+        writer.writerow([2+(startIdTeam-1),2+(startIdResource-1)])
 
 if __name__ == '__main__':
   create_csv()
