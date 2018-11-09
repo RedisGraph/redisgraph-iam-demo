@@ -1,0 +1,39 @@
+<ul class="graph-diagram-markup" data-internal-scale="1" data-external-scale="1">
+  <li class="node" data-node-id="0" data-x="642.0252075195312" data-y="-840.7283935546875">
+    <span class="caption">Team</span><dl class="properties"><dt>teamId</dt><dd>1</dd><dt>teamName</dt><dd>RedisLabs</dd></dl></li>
+  <li class="node" data-node-id="1" data-x="173.65078735351562" data-y="-266.51405334472656">
+    <span class="caption">User</span><dl class="properties"><dt>userId</dt><dd>1</dd><dt>userName</dt><dd>Yiftach Schoolman</dd></dl></li>
+  <li class="node" data-node-id="2" data-x="937.91357421875" data-y="-266.51405334472656">
+    <span class="caption">Team</span><dl class="properties"><dt>teamId</dt><dd>2</dd><dt>teamName</dt><dd>Modules Team</dd></dl></li>
+  <li class="node" data-node-id="3" data-x="937.91357421875" data-y="289.1031494140625">
+    <span class="caption">User</span><dl class="properties"><dt>userId</dt><dd>3</dd><dt>userName</dt><dd>Roi Lipman</dd></dl></li>
+  <li class="node" data-node-id="4" data-x="1679.7410888671875" data-y="-266.51405334472656">
+    <span class="caption">Resource</span><dl class="properties"><dt>resourceId</dt><dd>2</dd><dt>resourceName</dt><dd>github.com/./RedisGraph</dd></dl></li>
+  <li class="node" data-node-id="5" data-x="1385.0802612304688" data-y="-840.7283935546875">
+    <span class="caption">Resource</span><dl class="properties"><dt>resourceId</dt><dd>1</dd><dt>resourceName</dt><dd>"New Year Party Pictures"</dd></dl></li>
+  <li class="node" data-node-id="6" data-x="436.4678649902344" data-y="289.1031494140625">
+    <span class="caption">User</span><dl class="properties"><dt>userId</dt><dd>4</dd><dt>userName</dt><dd>Pieter Cailliau</dd></dl></li>
+  <li class="node" data-node-id="7" data-x="1530.4366455078125" data-y="289.1031494140625">
+    <span class="caption">User</span><dl class="properties"><dt>userId</dt><dd>5</dd><dt>userName</dt><dd>Itamar Haber</dd></dl></li>
+  <li class="relationship" data-from="1" data-to="0">
+    <span class="type">PART_OF_TEAM</span>
+  </li>
+  <li class="relationship" data-from="2" data-to="0">
+    <span class="type">PART_OF_TEAM</span>
+  </li>
+  <li class="relationship" data-from="3" data-to="2">
+    <span class="type">PART_OF_TEAM</span>
+  </li>
+  <li class="relationship" data-from="2" data-to="4">
+    <span class="type">RESOURCE_ACCESS</span>
+  </li>
+  <li class="relationship" data-from="0" data-to="5">
+    <span class="type">RESOURCE_ACCESS</span>
+  </li>
+  <li class="relationship" data-from="6" data-to="2">
+    <span class="type">PART_OF_TEAM</span>
+  </li>
+  <li class="relationship" data-from="7" data-to="2">
+    <span class="type">PART_OF_TEAM</span>
+  </li>
+</ul>
