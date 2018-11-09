@@ -17,33 +17,33 @@ def create_csv(usersperteam, resourcesperteam, hierarchies, childteams):
     # Create Team nodes file
     startIdTeam = 0
     with open('smallgraph/Team.csv', 'w') as teamFile:
-        fieldnames = ['teamId', 'teamName']
+        fieldnames = ['teamId', 'name']
         writer = csv.DictWriter(teamFile, fieldnames=fieldnames)
         writer.writeheader()
-        writer.writerow({'teamId':1,'teamName':'Redis Labs'})
-        writer.writerow({'teamId':2,'teamName':'Modules Team'})
+        writer.writerow({'teamId':1,'name':'Redis Labs'})
+        writer.writerow({'teamId':2,'name':'Modules Team'})
 
     startIdUser = startIdTeam + 2
     # Create User nodes file
     with open('smallgraph/User.csv', 'w') as userFile:
-        fieldnames = ['userId', 'userName']
+        fieldnames = ['userId', 'name']
         writer = csv.DictWriter(userFile, fieldnames=fieldnames)
         writer.writeheader()
-        writer.writerow({'userId':1,'userName':'Yiftach Schoolman'})
-        writer.writerow({'userId':2,'userName':'Roi Lipman'})
-        writer.writerow({'userId':3,'userName':'Pieter Cailliau'})
-        writer.writerow({'userId':4,'userName':'Itamar Haber'})
-        writer.writerow({'userId':5,'userName':'Jeffrey Lovitz'})
-        writer.writerow({'userId':6,'userName':'Keren Ouaknine'})
+        writer.writerow({'userId':1,'name':'Yiftach Schoolman'})
+        writer.writerow({'userId':2,'name':'Roi Lipman'})
+        writer.writerow({'userId':3,'name':'Pieter Cailliau'})
+        writer.writerow({'userId':4,'name':'Itamar Haber'})
+        writer.writerow({'userId':5,'name':'Jeffrey Lovitz'})
+        writer.writerow({'userId':6,'name':'Keren Ouaknine'})
 
     startIdResource = startIdUser + 6
     # Create Resource node file
     with open('smallgraph/Resource.csv', 'w') as resourceFile:
-        fieldnames = ['resourceId', 'resourceName']
+        fieldnames = ['resourceId', 'name']
         writer = csv.DictWriter(resourceFile, fieldnames=fieldnames)
         writer.writeheader()
-        writer.writerow({'resourceId':1,'resourceName':'New Year Party Pictures')
-        writer.writerow({'resourceId':2,'resourceName':'github.com/./RedisGraph')
+        writer.writerow({'resourceId':1,'name':'New Year Party Pictures'})
+        writer.writerow({'resourceId':2,'name':'github.com/./RedisGraph'})
 
     #  RELATIONSHIPS
     # user to team

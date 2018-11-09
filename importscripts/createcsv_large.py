@@ -17,29 +17,29 @@ def create_csv(usersperteam, resourcesperteam, hierarchies, childteams):
     # Create Team nodes file
     startIdTeam = 0
     with open('largegraph/Team.csv', 'w') as teamFile:
-        fieldnames = ['teamId', 'teamName']
+        fieldnames = ['teamId', 'name']
         writer = csv.DictWriter(teamFile, fieldnames=fieldnames)
         writer.writeheader()
         for x in range(0,numberOfTeams):
-            writer.writerow({'teamId':x,'teamName':'Team ' + str(x)})
+            writer.writerow({'teamId':x,'name':'Team ' + str(x)})
 
     startIdUser = startIdTeam + numberOfTeams
     # Create User nodes file
     with open('largegraph/User.csv', 'w') as userFile:
-        fieldnames = ['userId', 'userName']
+        fieldnames = ['userId', 'name']
         writer = csv.DictWriter(userFile, fieldnames=fieldnames)
         writer.writeheader()
         for x in range(0,numberOfTeams*usersperteam):
-            writer.writerow({'userId':x,'userName':'User ' + str(x)})
+            writer.writerow({'userId':x,'name':'User ' + str(x)})
 
     startIdResource = startIdUser + numberOfTeams*usersperteam
     # Create Resource node file
     with open('largegraph/Resource.csv', 'w') as resourceFile:
-        fieldnames = ['resourceId', 'resourceName']
+        fieldnames = ['resourceId', 'name']
         writer = csv.DictWriter(resourceFile, fieldnames=fieldnames)
         writer.writeheader()
         for x in range(0,numberOfTeams*resourcesperteam):
-            writer.writerow({'resourceId':x,'resourceName':'Resource ' + str(x)})
+            writer.writerow({'resourceId':x,'name':'Resource ' + str(x)})
 
     #  RELATIONSHIPS
     with open('largegraph/PART_OF_TEAM.csv', 'w') as partOfTeamFile:
