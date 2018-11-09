@@ -12,6 +12,9 @@ GRAPH.QUERY IAM_LARGE "MATCH (p:User {userId:147619})-[:PART_OF_TEAM*1..1]->()-[
 // Show entire Graph
 GRAPH.QUERY IAM_SMALL "MATCH (n)-[r]->(m) RETURN ID(n), n.name, n.type, ID(m), m.name, m.type"
 
+// show all members of the Modules team
+GRAPH.QUERY IAM_SMALL "MATCH (n:Team {teamId:2})<-[r]-(m:User) RETURN ID(n), n.name, n.type, ID(m), m.name, m.type"
+
 // Show resources Yiftach can access
 GRAPH.QUERY IAM_SMALL "MATCH (n:User {userId:1})-[*]->(m:Resource) RETURN ID(n), n.name, n.type, ID(m), m.name, m.type"
 
