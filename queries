@@ -21,5 +21,8 @@ GRAPH.QUERY IAM_SMALL "MATCH (n:User {userId:1})-[*]->(m:Resource) RETURN ID(n),
 // Show resources Itamar can access
 GRAPH.QUERY IAM_SMALL "MATCH (n:User {userId:4})-[*]->(m:Resource) RETURN ID(n), n.name, n.type, ID(m), m.name, m.type"
 
-// Show longest user to resource access query
+// show semi long resource query
+GRAPH.QUERY IAM_LARGE "MATCH (n:User {userId:49203})-[:PART_OF_TEAM*1..5]->()-[:RESOURCE_ACCESS]->(m:Resource {resourceId:604}) RETURN ID(n), n.name, n.type, ID(m), m.name, m.type"
+
+// Show longest user to resource access query and query time doubles
 GRAPH.QUERY IAM_LARGE "MATCH (n:User {userId:49203})-[:PART_OF_TEAM*1..10]->()-[:RESOURCE_ACCESS]->(m:Resource {resourceId:1}) RETURN ID(n), n.name, n.type, ID(m), m.name, m.type"
