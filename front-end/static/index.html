@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <script src="https://d3js.org/d3.v4.min.js"></script>
+  <style>
+    body {
+      background-image: url(bg.png);
+      background-size: cover;
+      font-family: 'Raleway', sans-serif;
+      font-weight: 400;
+    }
+
+    svg {
+      background-color: rgba(255, 255, 255, 0.8);
+      margin-left: auto;
+      margin-right: auto;
+      display: block;
+      margin-top: 2em;
+    }
+
+    .logo {
+      width: 200px;
+      margin-top: 3em;
+      margin-left: auto;
+      margin-right: auto;
+      display: block;
+    }
+  </style>
+  <link href="https://fonts.googleapis.com/css?family=Raleway" rel="stylesheet">
+
+</head>
+
+<body>
+  <div class="svg-container">
+    <svg width="960" height="400"></svg>
+  </div>
+  <img src="rl-logo.png" class="logo" />
+</body>
+<script>
+  var zLevel = 0.75;
+
+  var svg = d3.select("svg"),
+    width = +svg.attr("width"),
+    height = +svg.attr("height"),
+    color = d3.scaleOrdinal(d3.schemeCategory10);
+  var key = 'IAM_SMALL';
+  var nodes, links, redisgraph;
+  nodes = [];
+  links = [];
+  var showTable = false;
+
+  var simulation = d3.forceSimulation(nodes)
+    .force("charge", d3.forceManyBody().strength(-1000))
+    .force("link", d3.forceLink(links).distance(200))
+    .force("x", d3.forceX())
+    .force("y", d3.forceY())
+    //.alphaTarget(10)
+    .on("tick", ticked);
+
+  var tX = width / 2,
+    tY = height / 2,
+    g = svg.append("g").attr("transform", "translate(" + width / 2 + "," + height / 2 + ") scale(0.05)"),
+    link = g.append("g").attr("stroke", "#000").attr("stroke-width", 1.5).selectAll(".link"),
+    node = g.append("g").attr("stroke", "#fff").attr("stroke-width", 1.5).selectAll(".node"),
+    texts = g.append('g').attr('class', 'texts'),
+    textEls = texts.selectAll('text').data(nodes, function (node) { return node.id });
+  //add zoom capabilities 
+
+  function zoomed() {
+    g.attr("transform", d3.event.transform);
+  }
+  var zoom = d3.zoom().on('zoom', zoomed);
+  svg.call(zoom).call(zoom.transform, d3.zoomIdentity.translate(width / 2, height / 2).scale(zLevel));
+
+  function restart() {
+
+    // Apply the general update pattern to the nodes.
+    node = node.data(nodes, function (d) { return d.id; });
+    node.exit().remove();
+    node = node.enter().append("circle").attr("fill", function (d) { return color(d.id); }).attr("r", 8).merge(node);
+
+    // Apply the general update pattern to the links.
+    link = link.data(links, function (d) { return d.source.id + "-" + d.target.id; });
+    link.exit().remove();
+    link = link.enter().append("line").merge(link);
+
+    // Update and restart the simulation.
+    simulation.nodes(nodes);
+    simulation.force("link").links(links);
+    simulation.alpha(1).restart();
+    simulation.alphaDecay(0.15);
+  }
+  let windowId = 'id' + Math.floor((Math.random() * 10000000));
+  let socket = new WebSocket('ws://localhost:4000/query/' + windowId);
+  socket.onopen = function () {
+    console.log('socket open');
+
+    socket.onmessage = (msg) => {
+      nodes = [];
+      links = [];
+      let data = JSON.parse(msg.data);
+      if (data.status === 'ok') {
+        let relationships = data.results;
+        let queryTime = data.time;
+
+        let nodesAsObject = {};
+        relationships.forEach((o) => {
+          o.forEach((e) => {
+            let node = {};
+
+            node.id = e[1][1];
+            node.extended = {};
+            e.forEach(function (aPair) {
+              node.extended[aPair[0]] = aPair[1];
+            });
+            nodesAsObject['_' + e[0][1]] = node;
+          });
+        });
+
+        Object.keys(nodesAsObject).forEach(function (aNode, i) {
+          nodesAsObject[aNode].linearId = i;
+          nodes.push(nodesAsObject[aNode]);
+        });
+        relationships.forEach((o) => {
+          o.forEach((e, i) => {
+            if ((o.length - 1) !== i) {
+              links.push({ source: nodesAsObject['_' + e[0][1]].linearId, target: nodesAsObject['_' + o[i + 1][0][1]].linearId });
+            }
+          });
+        });
+        textEls = texts.selectAll('text').data(nodes, function (node) { return node.id })
+
+        textEls.exit().remove()
+        var textEnter = textEls
+          .enter()
+          .append('text')
+          .text(function (node) { return node.id })
+          .attr('font-size', 15);
+
+        textEls = textEnter.merge(textEls);
+        restart();
+        if (showTable) {
+          let tableData = [];
+          data.results.forEach(function (aChunk) {
+            let thisRow = {};
+            aChunk.forEach(function (thisChunk) {
+              thisChunk.forEach(function (thisPair) {
+                thisRow[thisPair[0]] = thisPair[1];
+              });
+            });
+
+            tableData.push(thisRow);
+          });
+          console.table(tableData);
+        }
+        console.log(queryTime);
+
+      } else {
+        console.error(data.message)
+      }
+    }
+    redisgraph = (query, chunkSize) => socket.send(JSON.stringify({ key: key, query: query, chunkSize: chunkSize }, null, 1));
+
+  };
+
+
+  function ticked() {
+    node.attr("cx", function (d) { return d.x; })
+      .attr("cy", function (d) { return d.y; })
+
+    textEls
+      .attr('dx', function (d) { return d && d.x - 25; })
+      .attr('dy', function (d) { return d && d.y + 25; })
+    //texts.attr('dx',function(d) { console.log(d); });
+
+    link.attr("x1", function (d) { return d.source.x; })
+      .attr("y1", function (d) { return d.source.y; })
+      .attr("x2", function (d) { return d.target.x; })
+      .attr("y2", function (d) { return d.target.y; });
+  }
+
+
+</script>
+
+</html>
