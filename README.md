@@ -17,3 +17,7 @@ import.sh
 
 ## Schema
 ![Schema](images/schema.png?raw=true "Schema IAM")
+
+## TODO
+
+allow for passing of host, port and password in import script
