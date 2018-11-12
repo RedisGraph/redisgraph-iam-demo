@@ -9,6 +9,10 @@ git submodule update --init --recursive
 pip install --user -r requirements.txt
 ```
 ## Execution
+Run RedisGraph
+```
+docker run --name redis-graph -d -p 6379:6379 redislabs/redisgraph:1.0.0
+```
 ```
 import.sh
 ```
