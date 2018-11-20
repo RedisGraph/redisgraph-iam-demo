@@ -38,6 +38,13 @@
   <img src="rl-logo.png" class="logo" />
 </body>
 <script>
+
+  var query1 = 'MATCH (n)-[r]->(m) RETURN ID(n), n.name, n.type, ID(m), m.name, m.type';
+  var query2 = 'MATCH (n:User)-[*]->(m:Resource) where n.userId=1 RETURN ID(n), n.name, n.type, ID(m), m.name, m.type';
+  var query3 = 'MATCH (n:User)-[*]->(m:Resource) WHERE n.userId=4 RETURN ID(n), n.name, n.type, ID(m), m.name, m.type';
+  var query4 = 'MATCH (n:User {userId:49203})-[:PART_OF_TEAM*1..5]->()-[:RESOURCE_ACCESS]->(m:Resource {resourceId:604}) RETURN ID(n), n.name, n.type, ID(m), m.name, m.type LIMIT 1';
+  var query5 = 'MATCH (n:User {userId:49203})-[:PART_OF_TEAM*1..10]->()-[:RESOURCE_ACCESS]->(m:Resource {resourceId:1}) RETURN ID(n), n.name, n.type, ID(m), m.name, m.type LIMIT 1';
+
   var zLevel = 0.75;
 
   var svg = d3.select("svg"),
@@ -65,7 +72,7 @@
     node = g.append("g").attr("stroke", "#fff").attr("stroke-width", 1.5).selectAll(".node"),
     texts = g.append('g').attr('class', 'texts'),
     textEls = texts.selectAll('text').data(nodes, function (node) { return node.id });
-  //add zoom capabilities 
+  //add zoom capabilities
 
   function zoomed() {
     g.attr("transform", d3.event.transform);
@@ -160,8 +167,10 @@
         console.error(data.message)
       }
     }
-    redisgraph = (query, chunkSize) => socket.send(JSON.stringify({ key: key, query: query, chunkSize: chunkSize }, null, 1));
-
+    redisgraph = (query, chunkSize) => {
+      socket.send(JSON.stringify({ key: key, query: query, chunkSize: chunkSize }, null, 1));
+      console.log(query);
+    };
   };
 
 
