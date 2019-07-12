@@ -1,7 +1,7 @@
 *.csv
 largegraph/
 smallgraph/
-
+front-end/package-lock.json
 .DS_Store
 
 node_modules
